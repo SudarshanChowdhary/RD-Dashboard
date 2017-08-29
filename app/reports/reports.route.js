@@ -19,6 +19,23 @@ function ReportsRoute($stateProvider) {
         ncyBreadcrumb: {
             label: 'Reports'
         }
+    }).state('root.reports.bhureports', {
+        url: '/bhureports',
+        views: {
+            "@root": {
+                templateUrl: 'app/reports/templates/reports.html',
+                controller: 'ReportsController',
+                controllerAs: 'vmrep'
+            },
+            'bhureport@root.reports.bhureports': {
+                templateUrl: 'app/reports/templates/reports-bhu-report.html',
+                controller: 'BhuReportController',
+                controllerAs: 'bhureport'
+            }
+        },
+        ncyBreadcrumb: {
+            label: 'BHU Report'
+        }
     });
 }
 module.exports = ReportsRoute;
