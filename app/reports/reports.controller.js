@@ -3,6 +3,7 @@ ReportsController.$inject = ['$state', '$scope', '$log', 'reportsList', 'reports
 function ReportsController($state, $scope, $log, reportsList, reportservice) {
     var vmrep = this;
     vmrep.reportList = reportsList;
+    vmrep.reportBtns = [{"Name":"BHU Report"},{"Name":"Report"}];
     if(reportsList && reportsList.errorCode){
             $scope.$emit('alert', {
                 message: 'RT Dashboard currently down for Maintenance. We will be back soon. Thank you for your patience.',

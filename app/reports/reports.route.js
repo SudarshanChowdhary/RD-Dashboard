@@ -4,7 +4,7 @@ function ReportsRoute($stateProvider) {
     $stateProvider.state('root.reports', {
         url: '/reports',
         views: {
-            '@root': {
+            '@root.reports': {
                 templateUrl: 'app/reports/templates/reports.html',
                 controller: 'ReportsController',
                 controllerAs: 'vmrep'
@@ -17,17 +17,12 @@ function ReportsRoute($stateProvider) {
                 // }]
             },
         ncyBreadcrumb: {
-            label: 'Reports'
+            label: 'Request Report'
         }
-    }).state('root.reports.bhureports', {
+    }).state('root.bhureports', {
         url: '/bhureports',
         views: {
-            "@root": {
-                templateUrl: 'app/reports/templates/reports.html',
-                controller: 'ReportsController',
-                controllerAs: 'vmrep'
-            },
-            'bhureport@root.reports.bhureports': {
+            '@root.bhureports': {
                 templateUrl: 'app/reports/templates/reports-bhu-report.html',
                 controller: 'BhuReportController',
                 controllerAs: 'bhureport'
@@ -35,6 +30,24 @@ function ReportsRoute($stateProvider) {
         },
         ncyBreadcrumb: {
             label: 'BHU Report'
+        }
+    }).state('root.reporthome', {
+        url: '/reporthome',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/reports-home.html',
+                controller: 'ReportsController',
+                controllerAs: 'vmrep'
+            }
+        },
+        resolve: {
+                reportsList: require('./reports-list.resolve')
+                // reportsList: ["$q", "$timeout","$http", function ($q, $timeout, $http) {
+                //    return $http.get("reports/list").then(function(resp){ return {status:true , reportsList: resp} }, function(error){ return {status:false, reportsList: error} })
+                // }]
+            },
+        ncyBreadcrumb: {
+            label: 'Reports'
         }
     });
 }

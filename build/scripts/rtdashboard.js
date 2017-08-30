@@ -2296,7 +2296,8 @@ function getReportsList(reportservice, $q, $http, $stateParams, spinnerService) 
     // return reportservice.getReportsList();
      var def = $q.defer();
          spinnerService.show();
-            $http.get("reports/list")
+            //$http.get("reports/list")
+             $http.get("https://rtdashboardp.rno.apple.com:9012/reports/list?callback=angular.callbacks._0")
                 .success(function(data) {
                     def.resolve(data);
                     spinnerService.hide();
@@ -2315,6 +2316,7 @@ ReportsController.$inject = ['$state', '$scope', '$log', 'reportsList', 'reports
 function ReportsController($state, $scope, $log, reportsList, reportservice) {
     var vmrep = this;
     vmrep.reportList = reportsList;
+    vmrep.reportBtns = [{"Name":"BHU Report"},{"Name":"Report"}];
     if(reportsList && reportsList.errorCode){
             $scope.$emit('alert', {
                 message: 'RT Dashboard currently down for Maintenance. We will be back soon. Thank you for your patience.',
@@ -2356,7 +2358,7 @@ function ReportsRoute($stateProvider) {
     $stateProvider.state('root.reports', {
         url: '/reports',
         views: {
-            '@root': {
+            '@root.reports': {
                 templateUrl: 'app/reports/templates/reports.html',
                 controller: 'ReportsController',
                 controllerAs: 'vmrep'
@@ -2369,17 +2371,12 @@ function ReportsRoute($stateProvider) {
                 // }]
             },
         ncyBreadcrumb: {
-            label: 'Reports'
+            label: 'Request Report'
         }
-    }).state('root.reports.bhureports', {
+    }).state('root.bhureports', {
         url: '/bhureports',
         views: {
-            "@root": {
-                templateUrl: 'app/reports/templates/reports.html',
-                controller: 'ReportsController',
-                controllerAs: 'vmrep'
-            },
-            'bhureport@root.reports.bhureports': {
+            '@root.bhureports': {
                 templateUrl: 'app/reports/templates/reports-bhu-report.html',
                 controller: 'BhuReportController',
                 controllerAs: 'bhureport'
@@ -2387,6 +2384,24 @@ function ReportsRoute($stateProvider) {
         },
         ncyBreadcrumb: {
             label: 'BHU Report'
+        }
+    }).state('root.reporthome', {
+        url: '/reporthome',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/reports-home.html',
+                controller: 'ReportsController',
+                controllerAs: 'vmrep'
+            }
+        },
+        resolve: {
+                reportsList: require('./reports-list.resolve')
+                // reportsList: ["$q", "$timeout","$http", function ($q, $timeout, $http) {
+                //    return $http.get("reports/list").then(function(resp){ return {status:true , reportsList: resp} }, function(error){ return {status:false, reportsList: error} })
+                // }]
+            },
+        ncyBreadcrumb: {
+            label: 'Reports'
         }
     });
 }
@@ -2412,7 +2427,8 @@ function ReportsService($http, $q,spinnerService){
 	function getReportsList() {
         var def = $q.defer();
          spinnerService.show();
-            $http.get("reports/list")
+          //  $http.get("reports/list")
+           $http.get("https://rtdashboardp.rno.apple.com:9012/reports/list?callback=angular.callbacks._0")
                 .success(function(data) {
                     def.resolve(data);
                     spinnerService.hide();
@@ -5256,7 +5272,8 @@ function SharedService($http, $q, spinnerService) {
     function getUser(){
       var def = $q.defer();
         spinnerService.show();
-        $http.get("homepage/userProfile").success(function(data) {
+       // $http.get("homepage/userProfile").success(function(data) {
+       $http.get("https://rtdashboardp.rno.apple.com:9012/homepage/userProfile?callback=angular.callbacks._0").success(function(data) {
             def.resolve(data);
             spinnerService.hide();
         }).error(function() {

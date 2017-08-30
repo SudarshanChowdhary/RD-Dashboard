@@ -43,7 +43,8 @@ function SharedService($http, $q, spinnerService) {
     function getUser(){
       var def = $q.defer();
         spinnerService.show();
-        $http.get("homepage/userProfile").success(function(data) {
+       // $http.get("homepage/userProfile").success(function(data) {
+       $http.get("https://rtdashboardp.rno.apple.com:9012/homepage/userProfile?callback=angular.callbacks._0").success(function(data) {
             def.resolve(data);
             spinnerService.hide();
         }).error(function() {

@@ -18,7 +18,8 @@ function ReportsService($http, $q,spinnerService){
 	function getReportsList() {
         var def = $q.defer();
          spinnerService.show();
-            $http.get("reports/list")
+          //  $http.get("reports/list")
+           $http.get("https://rtdashboardp.rno.apple.com:9012/reports/list?callback=angular.callbacks._0")
                 .success(function(data) {
                     def.resolve(data);
                     spinnerService.hide();
