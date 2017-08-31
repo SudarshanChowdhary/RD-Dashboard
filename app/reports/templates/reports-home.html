@@ -1,9 +1,18 @@
-<div class="rt-tickets-container row">
-<div class="col-md-8 ticketFolderBox">
-        <div class="ticketFolder-box col-md-4 ng-scope" ng-repeat="reprt in vmrep.reportBtns">
-        <a href="javascript:void(0)">
-            {{ reprt.Name }}
-        </a>
-    </div>
-</div>
-</div>
+<section class="rt-reports-container">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <a ui-sref="root.reportbhu">BHU Reports</a>
+                </div>
+                <div class="col-md-6">
+                    <a ui-sref="root.reports">Reports</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</section>

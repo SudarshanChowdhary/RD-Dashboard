@@ -884,7 +884,7 @@ module.exports = angular
     .controller('AdminTeamController', require('./admin-team.controller'))
     .controller('AdminTicketController', require('./admin-ticket.controller'))
     .factory('adminservice', require('./admin.service'));
-},{"./admin-folder.controller":1,"./admin-spotlight.controller":2,"./admin-team.controller":3,"./admin-ticket.controller":4,"./admin.constants":5,"./admin.controller":6,"./admin.route":8,"./admin.service":9,"angular":96}],8:[function(require,module,exports){
+},{"./admin-folder.controller":1,"./admin-spotlight.controller":2,"./admin-team.controller":3,"./admin-ticket.controller":4,"./admin.constants":5,"./admin.controller":6,"./admin.route":8,"./admin.service":9,"angular":100}],8:[function(require,module,exports){
 AdminRoute.$inject = ['$stateProvider'];
 
 function AdminRoute($stateProvider) {
@@ -1291,7 +1291,6 @@ angular
     .config(require('./app.route.js'))
     // configure application breadcrumb options
     .config(function($breadcrumbProvider) {
-    debugger;
         $breadcrumbProvider.setOptions({
           prefixStateName: 'home',
           template: 'bootstrap3'
@@ -1299,7 +1298,7 @@ angular
       })
     .run(require('./app.run.js')); 
     
-},{"./admin/admin.module":7,"./app.route.js":11,"./app.run.js":12,"./defects/defects.module":14,"./error/error.module":18,"./home/home.module":21,"./layout/layout.module":24,"./process/process.module":26,"./reports/reports.module":31,"./repository/repository.module":38,"./search/search.module":43,"./shared/breadcrumb/angular-breadcrumb.js":45,"./shared/directives/grid/grid.module":70,"./shared/shared.module":75,"./team/team.module":81,"./tickets/tickets.module":87,"angular":96,"angular-messages":91,"angular-ui-bootstrap":93,"angular-ui-router":94,"bootstrap-sass/assets/javascripts/bootstrap":97,"jquery":99,"jquery-ui":98,"ui-select":101}],11:[function(require,module,exports){
+},{"./admin/admin.module":7,"./app.route.js":11,"./app.run.js":12,"./defects/defects.module":14,"./error/error.module":18,"./home/home.module":21,"./layout/layout.module":24,"./process/process.module":26,"./reports/reports.module":34,"./repository/repository.module":42,"./search/search.module":47,"./shared/breadcrumb/angular-breadcrumb.js":49,"./shared/directives/grid/grid.module":74,"./shared/shared.module":79,"./team/team.module":85,"./tickets/tickets.module":91,"angular":100,"angular-messages":95,"angular-ui-bootstrap":97,"angular-ui-router":98,"bootstrap-sass/assets/javascripts/bootstrap":101,"jquery":103,"jquery-ui":102,"ui-select":105}],11:[function(require,module,exports){
 AppRoute.$inject = ['$stateProvider', '$urlRouterProvider'];
 
 function AppRoute($stateProvider, $urlRouterProvider) {
@@ -1623,7 +1622,7 @@ module.exports = angular
     .factory('defectsservice', require('./defects.service'));
 
 
-},{"./defects.controller":13,"./defects.route":15,"./defects.service":16,"angular":96}],15:[function(require,module,exports){
+},{"./defects.controller":13,"./defects.route":15,"./defects.service":16,"angular":100}],15:[function(require,module,exports){
 DefectsRoute.$inject = ['$stateProvider'];
 
 function DefectsRoute($stateProvider) {
@@ -1726,7 +1725,7 @@ module.exports = angular
     .config(require('./error.route'))
     .controller('ErrorController', require('./error.controller'));
 
-},{"./error.controller":17,"./error.route":19,"angular":96}],19:[function(require,module,exports){
+},{"./error.controller":17,"./error.route":19,"angular":100}],19:[function(require,module,exports){
 ErrorRoute.$inject = ['$stateProvider'];
 
 function ErrorRoute($stateProvider) {
@@ -1920,7 +1919,7 @@ var angular = require('angular');
 module.exports = angular
     .module('rt.layout', [])
     .component('rtHeader', require('./header/header.component'));
-},{"./header/header.component":23,"angular":96}],25:[function(require,module,exports){
+},{"./header/header.component":23,"angular":100}],25:[function(require,module,exports){
 ProcessController.$inject = ['$state', '$scope', '$log'];
 
 function ProcessController($state, $scope, $log) {
@@ -1944,7 +1943,7 @@ module.exports = angular
     .config(require('./process.route'))
     .controller('ProcessController', require('./process.controller'));
 
-},{"./process.controller":25,"./process.route":27,"angular":96}],27:[function(require,module,exports){
+},{"./process.controller":25,"./process.route":27,"angular":100}],27:[function(require,module,exports){
 ProcessRoute.$inject = ['$stateProvider'];
 
 function ProcessRoute($stateProvider) {
@@ -1964,332 +1963,78 @@ function ProcessRoute($stateProvider) {
 }
 module.exports = ProcessRoute;
 },{}],28:[function(require,module,exports){
-BhuReportController.$inject = ['$state', '$scope', '$http','$filter','$sce', 'reportservice', 'sharedService'];
+BHUIHUController.$inject = ['$state', '$scope', '$log', 'reportservice'];
 
-function BhuReportController($state, $scope, $http, $filter,$sce, reportservice, sharedService) {
-    var bhureport = this;
-    bhureport.filterBhuReport = {};
-    bhureport.count = 0;
-    // bhureport.noDataMsg = '';
-    
-    // Variable Definitions
-    // Function Definitions
-   
-    bhureport.init = init;
-    bhureport.showFilterOptions = showFilterOptions;
-    bhureport.populateBhuReportDetailsData = populateBhuReportDetailsData;
-    bhureport.showFilterOptions = showFilterOptions;
-    bhureport.populateBhuReportFilterData = populateBhuReportFilterData;
-    bhureport.hideSideFilterOptions = hideSideFilterOptions;
-    bhureport.resetFilter = resetFilter;
-    bhureport.getBhuReportList = getBhuReportList;
-    bhureport.checkFilterSelection = checkFilterSelection;
-    bhureport.searchBhuReportTable = searchBhuReportTable;
-    bhureport.calculateTotalRecords = calculateTotalRecords;
-    bhureport.loadMore = loadMore;
-    bhureport.exportToExcel = exportToExcel;
+function BHUIHUController($state, $scope, $log, reportservice) {
+    var vmrepbhu = this;
     init();
-    bhureport.bhuReportError = false;  
     /**
      * init
-     * Intializing On Load Services for BhuReport Page
+     * Intializing On Load Services for Set Up Client Page
      */
     function init() {
-        bhureport.bhuReportFilterQuarter = sharedService.getQuarter();
-        bhureport.bhurptFilterYear = sharedService.getYears();
-         bhureport.gridOptions = {
-            bindType: 1,
-            data: {
-                foo: {}
-            },
-            dataOptions: {
-                nodata: 'No data'
-            },
-            enablePagination: true
-        };
-        bhureport.getBhuReportList();
+        
     }
 
-    function getBhuReportList(){
-         reportservice.getBhuReportData().then(function(bhuReportData) {
-            if(bhuReportData && bhuReportData.errorCode){
-                $scope.$emit('alert', {
-                message: 'RT Dashboard currently down for Maintenance. We will be back soon. Thank you for your patience.',
-                success: false
-            });
-              bhureport.bhuReportError = true;  
-           }else{
-              bhureport.populateBhuReportDetailsData(bhuReportData.bhurptDetails, bhuReportData.totalCount);
-           }
-        });
-
-        }
-
-    function populateBhuReportDetailsData(bhuReportList, count){
-        bhureport.gridOptions.dataOptions.nodata = '';
-        bhureport.columns = [{
-            headerText: 'BHU / IHU',
-            dataField: 'bhuIhu',
-            tdClasses: 'width30',
-            thClasses: 'width30',
-            sort: true
-        }, {
-            headerText: 'CURRENT STATUS',
-            dataField: 'currentStatus',
-            thClasses: 'width60',
-            tdClasses: 'width60'
-        }, {
-            headerText: 'SIZE',
-            dataField: 'size',
-            thClasses: 'width15',
-            tdClasses: 'width15',
-            sort: true
-        },{
-            headerText: 'NO OF OBJECTS',
-            dataField: 'noOfObjects',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'PROJECT MANAGER',
-            dataField: 'projectManager',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'RT SPOC',
-            dataField: 'rtspoc',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'EXTENDED TEAM MEMBERS',
-            dataField: 'extendedTeamMembers',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'SCRIPTS SHARED',
-            dataField: 'scriptShared',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'SCRIPTS UTILIZED',
-            dataField: 'scriptUtilized',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'SCRIPT EXECUTED',
-            dataField: 'scriptExecuted',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'RT DEFECTS',
-            dataField: 'rtDefects',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'RT MISS',
-            dataField: 'rtMiss',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'WARRANTY ISSUES',
-            dataField: 'warrantyIssue',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'SCRIPT EXECUTED PART OF WARRANTY',
-            dataField: 'scriptExcpartOfwarranty',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'NEW SCRIPT RECEIVED',
-            dataField: 'newscriptReceived',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'SCRIPTS MODIFIED',
-            dataField: 'scriptsModified',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        },{
-            headerText: 'EFFORTS UTILIZED',
-            dataField: 'efortsUtilized',
-            thClasses: 'width10',
-            tdClasses: 'width10'
-        }
-    ];
-        bhureport.itemRenderers = {
-            //link going to appear in grid
-            'bhuIhu': 'bhuIhu-link-renderer',
-            'currentStatus': 'currentStatus-link-renderer',
-            'warrantyIssue':'warrantyIssue-link-renderer'
-            //other formatted columns
-
-
-        };
-        bhureport.data = bhuReportList;
-        bhureport.dataCopy = angular.copy(bhureport.data);
-        bhureport.bhuReportCount = count;
-        if(bhureport.selectedYear && bhureport.selectedQuarter){
-            bhureport.gridOptions.dataOptions.nodata = $sce.trustAsHtml('No data found for the selected year - &quot;<b>'+bhureport.selectedYear+ '</b>&quot; and Quarter - &quot;<b>'+bhureport.selectedQuarter+ '</b>&quot;. Use filter to find other data');
-        }else if(bhureport.selectedYear && !bhureport.selectedQuarter){
-            bhureport.gridOptions.dataOptions.nodata = $sce.trustAsHtml('No data found for the selected year - &quot;<b>'+bhureport.selectedYear+'</b>&quot;. Use filter to find other data');
-        }else{
-            bhureport.gridOptions.dataOptions.nodata = 'No data found for the current quarter. Use filter to find other data';
-        }
-        bhureport.calculateTotalRecords(bhureport.bhuReportCount);
-    }
-
-    function searchBhuReportTable(keyword){
-        bhureport.count = 0;
-        bhureport.count = bhureport.count  + 1;
-        $scope.$watch('bhureport.filterBhuReport.searchKeyword', function(){
-             if(keyword && keyword.length == 0){
-                        bhureport.data = bhureport.dataCopy;
-                    }
-                    else if(keyword && keyword.length>=2){
-
-                        // var filteredData;
-                            bhureport.data = $filter('filter')(bhureport.data, function(data) {
-                              
-                            if  (data.bhurptName == null){
-                                data.bhurptName = "";
-                            }
-                            
-                            if  (data.description == null){
-                                data.description = "";
-                            }
-
-                            if  (data.category == null){
-                                data.category = "";
-                            }
-
-                            if  (data.bussinessImpact == null){
-                                data.bussinessImpact = "";
-                            }
-
-                            if  (data.status == null){
-                                data.status = "";
-                            }
-
-                                return data.bhurptName.toString().toLowerCase().indexOf(bhureport.filterBhuReport.searchKeyword.toLowerCase()) > -1 || data.description.toString().toLowerCase().indexOf(bhureport.filterBhuReport.searchKeyword.toLowerCase()) > -1 
-                                    || data.category.toString().toLowerCase().indexOf(bhureport.filterBhuReport.searchKeyword.toLowerCase()) > -1 || data.bussinessImpact.toString().toLowerCase().indexOf(bhureport.filterBhuReport.searchKeyword.toLowerCase()) > -1
-                                    || data.status.toString().toLowerCase().indexOf(bhureport.filterBhuReport.searchKeyword.toLowerCase()) > -1;
-
-                            
-                            });
-                         bhureport.gridOptions.dataOptions.nodata = $sce.trustAsHtml('No data found for the search keyword &quot;<b>'+keyword+'</b>&quot;');
-                    }else{
-                        bhureport.data = bhureport.dataCopy;
-                    }
-        });
-       
-    }
-    
-    function showFilterOptions(){
-        angular.element('.sidenav').toggleClass('hide');
-        angular.element('.sidenav').css({
-                      "width": "20%",
-                      "float": "left",
-                      "padding": "10px"
-                    });
-        angular.element('.rt-grid__wrapper').css({
-                      "width": "80%",
-                      "float": "left"
-                    });
-        angular.element('.filter-by').toggleClass('hide');
-    }
-
-    function populateBhuReportFilterData(filterbhuReport, startIndex){
-        bhureport.selectedQuarter = filterbhuReport.bhurptQuarter;
-        bhureport.selectedYear = filterbhuReport.bhurptYear;
-        if(filterbhuReport.bhurptYear && !filterbhuReport.bhurptQuarter){
-             reportservice.getBhuReportFilterDetailsByYear(filterbhuReport.bhurptYear, startIndex).then(function(resp){
-                if(resp && resp.errorCode){
-                $scope.$emit('alert', {
-                message: resp.message,
-                success: false
-            });
-           }else{
-               bhureport.populateBhuReportDetailsData(resp.bhurptDetails, resp.totalCount);
-           }
-            });
-         }else if(filterbhuReport.bhurptYear && filterbhuReport.bhurptQuarter){
-                reportservice.getBhuReportFilterDetailsByQuarter(filterbhuReport.bhurptYear, filterbhuReport.bhurptQuarter, startIndex).then(function(resp){
-                    if(resp && resp.errorCode){
-                        $scope.$emit('alert', {
-                        message: resp.message,
-                        success: false
-                    });
-           }else{
-                   bhureport.populateBhuReportDetailsData(resp.bhurptDetails, resp.totalCount);
-               }
-                });
-        }
-         bhureport.filterBhuReport.searchKeyword = '';
-    }
-
-    function hideSideFilterOptions(){
-        angular.element('.sidenav').toggleClass('hide');
-        angular.element('.sidenav').css({
-                      "width": "0"
-                    });
-        angular.element('.rt-grid__wrapper').css({
-                      "width": "100%"
-                    });
-        angular.element('.filter-by').toggleClass('hide');
-    }
-
-    function resetFilter(){
-        bhureport.filterBhuReport = {};
-        bhureport.selectedYear = '';
-        bhureport.selectedQuarter = '';
-        bhureport.getBhuReportList();
-    }
-
-    function checkFilterSelection(filterSelected){
-        if(!filterSelected.bhurptYear){
-            return true;
-            }
-            else{
-                return false;
-            }
-    }
-
-    function calculateTotalRecords(c){
-        bhureport.count = 0;
-        bhureport.count = bhureport.count  + 1;
-        bhureport.nOfIndexs = (Math.round(c / 100));
-    }
-
-    function loadMore(i){   
-        bhureport.count = bhureport.count  + 1;
-        if(bhureport.selectedYear && !bhureport.selectedQuarter){
-            reportservice.getBhuReportFilterDetailsByYear(bhureport.selectedYear, (100*i)+1).then(function(resp){
-                bhureport.data =  bhureport.data.concat(resp.bhurptDetails);
-            });
-        }else if(bhureport.selectedYear && bhureport.selectedQuarter){
-            reportservice.getBhuReportFilterDetailsByQuarter(bhureport.selectedYear, bhureport.selectedQuarter, (100*i)+1).then(function(resp){
-                bhureport.data =  bhureport.data.concat(resp.bhurptDetails);
-            });
-        }else{
-             reportservice.getBhuReportData((100*i)+1).then(function(resp){
-                bhureport.data =  bhureport.data.concat(resp.bhurptDetails);
-           });
-         }
-    }
-
-    function exportToExcel(){
-        if(bhureport.filterBhuReport.bhurptYear && !bhureport.filterBhuReport.bhurptQuarter){
-            window.location.href = reportservice.exportToExcelByYear(bhureport.filterBhuReport.bhurptYear);
-        }else if(bhureport.filterBhuReport.bhurptYear && bhureport.filterBhuReport.bhurptQuarter){
-            window.location.href = reportservice.exportToExcelByQuarter(bhureport.filterBhuReport.bhurptYear, bhureport.filterBhuReport.bhurptQuarter);
-        }else{
-            window.location.href = reportservice.exportToExcelCurrentQuarter();
-        }
-    }
 
 }
-module.exports = BhuReportController;
+
+module.exports = BHUIHUController;
 },{}],29:[function(require,module,exports){
+CurrentStatusController.$inject = ['$state', '$scope', '$log', 'reportservice'];
+
+function CurrentStatusController($state, $scope, $log, reportservice) {
+    var vmrepbhu = this;
+    init();
+    /**
+     * init
+     * Intializing On Load Services for Set Up Client Page
+     */
+    function init() {
+        
+    }
+
+
+}
+
+module.exports = CurrentStatusController;
+},{}],30:[function(require,module,exports){
+ReportsBHUController.$inject = ['$state', '$scope', '$log', 'reportservice'];
+
+function ReportsBHUController($state, $scope, $log, reportservice) {
+    var vmrepbhu = this;
+    init();
+    /**
+     * init
+     * Intializing On Load Services for Set Up Client Page
+     */
+    function init() {
+        
+    }
+
+
+}
+
+module.exports = ReportsBHUController;
+},{}],31:[function(require,module,exports){
+ReportsHomeController.$inject = ['$state', '$scope', '$log', 'reportservice'];
+
+function ReportsHomeController($state, $scope, $log, reportservice) {
+    var vmrephome = this;
+    init();
+    /**
+     * init
+     * Intializing On Load Services for Set Up Client Page
+     */
+    function init() {
+        
+    }
+
+
+}
+
+module.exports = ReportsHomeController;
+},{}],32:[function(require,module,exports){
 getReportsList.$inject = ['reportservice','$q', '$http', '$stateParams', 'spinnerService'];
 
 function getReportsList(reportservice, $q, $http, $stateParams, spinnerService) {
@@ -2310,7 +2055,7 @@ function getReportsList(reportservice, $q, $http, $stateParams, spinnerService) 
 
 module.exports = getReportsList;
 
-},{}],30:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 ReportsController.$inject = ['$state', '$scope', '$log', 'reportsList', 'reportservice'];
 
 function ReportsController($state, $scope, $log, reportsList, reportservice) {
@@ -2342,20 +2087,75 @@ function ReportsController($state, $scope, $log, reportsList, reportservice) {
 }
 
 module.exports = ReportsController;
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular
     .module('rt.reports', [])
     .config(require('./reports.route'))
     .controller('ReportsController', require('./reports.controller'))
-    .controller('BhuReportsController', require('./reports-bhu-controller'))
+    .controller('ReportsHomeController', require('./reports-home.controller'))
+    .controller('ReportsBHUController', require('./reports-bhu.controller'))
+    .controller('BHUIHUController', require('./bhu-ihu.controller'))
+    .controller('CurrentStatusController', require('./current-status.controller'))
+    .controller('WarrantyIssuesController', require('./warranty-issues.controller'))
     .factory('reportservice', require('./reports.service'));
-},{"./reports-bhu-controller":28,"./reports.controller":30,"./reports.route":32,"./reports.service":33,"angular":96}],32:[function(require,module,exports){
+},{"./bhu-ihu.controller":28,"./current-status.controller":29,"./reports-bhu.controller":30,"./reports-home.controller":31,"./reports.controller":33,"./reports.route":35,"./reports.service":36,"./warranty-issues.controller":37,"angular":100}],35:[function(require,module,exports){
 ReportsRoute.$inject = ['$stateProvider'];
 
 function ReportsRoute($stateProvider) {
-    $stateProvider.state('root.reports', {
+    $stateProvider
+    .state('root.reporthome', {
+        url: '/reporthome',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/reports-home.html',
+                controller: 'ReportsHomeController',
+                controllerAs: "vmrephome"
+            }
+        }
+    })
+    .state('root.reportbhu', {
+        url: '/reportbhu',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/reports-bhu.html',
+                controller: 'ReportsBHUController',
+                controllerAs: "vmrepbhu"
+            }
+        }
+    })
+    .state('root.bhuihu', {
+        url: '/bhuihu',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/bhu-ihu.html',
+                controller: 'BHUIHUController',
+                controllerAs: "vmbhuihu"
+            }
+        }
+    })
+    .state('root.currentstatus', {
+        url: '/currentstatus',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/current-status.html',
+                controller: 'CurrentStatusController',
+                controllerAs: "vmcurrentstatus"
+            }
+        }
+    })    
+    .state('root.warrantyissues', {
+        url: '/warrantyissues',
+        views: {
+            '@root': {
+                templateUrl: 'app/reports/templates/warranty-issues.html',
+                controller: 'WarrantyIssuesController',
+                controllerAs: "vmwarrantyissues"
+            }
+        }
+    })
+    .state('root.reports', {
         url: '/reports',
         views: {
             '@root.reports': {
@@ -2373,40 +2173,10 @@ function ReportsRoute($stateProvider) {
         ncyBreadcrumb: {
             label: 'Request Report'
         }
-    }).state('root.bhureports', {
-        url: '/bhureports',
-        views: {
-            '@root.bhureports': {
-                templateUrl: 'app/reports/templates/reports-bhu-report.html',
-                controller: 'BhuReportController',
-                controllerAs: 'bhureport'
-            }
-        },
-        ncyBreadcrumb: {
-            label: 'BHU Report'
-        }
-    }).state('root.reporthome', {
-        url: '/reporthome',
-        views: {
-            '@root': {
-                templateUrl: 'app/reports/templates/reports-home.html',
-                controller: 'ReportsController',
-                controllerAs: 'vmrep'
-            }
-        },
-        resolve: {
-                reportsList: require('./reports-list.resolve')
-                // reportsList: ["$q", "$timeout","$http", function ($q, $timeout, $http) {
-                //    return $http.get("reports/list").then(function(resp){ return {status:true , reportsList: resp} }, function(error){ return {status:false, reportsList: error} })
-                // }]
-            },
-        ncyBreadcrumb: {
-            label: 'Reports'
-        }
     });
 }
 module.exports = ReportsRoute;
-},{"./reports-list.resolve":29}],33:[function(require,module,exports){
+},{"./reports-list.resolve":32}],36:[function(require,module,exports){
 ReportsService.$inject = ['$http', '$q', 'spinnerService'];
 
 function ReportsService($http, $q,spinnerService){
@@ -2496,7 +2266,25 @@ function ReportsService($http, $q,spinnerService){
 }
 
 module.exports = ReportsService;
-},{}],34:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
+WarrantyIssuesController.$inject = ['$state', '$scope', '$log', 'reportservice'];
+
+function WarrantyIssuesController($state, $scope, $log, reportservice) {
+    var vmrepbhu = this;
+    init();
+    /**
+     * init
+     * Intializing On Load Services for Set Up Client Page
+     */
+    function init() {
+        
+    }
+
+
+}
+
+module.exports = WarrantyIssuesController;
+},{}],38:[function(require,module,exports){
 RepositoryModulesController.$inject = ['$state', '$scope','$rootScope', '$log', 'repositoryservice'];
 
 function RepositoryModulesController($state, $scope,$rootScope, $log, repositoryservice) {
@@ -2574,7 +2362,7 @@ function RepositoryModulesController($state, $scope,$rootScope, $log, repository
 
 }
 module.exports = RepositoryModulesController;
-},{}],35:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 RepositoryTestScriptListController.$inject = ['$state', '$stateParams', '$scope', '$rootScope', '$log', '$filter', '$timeout', 'repositoryservice'];
 
 function RepositoryTestScriptListController($state, $stateParams, $scope, $rootScope, $log, $filter, $timeout, repositoryservice) {
@@ -2839,7 +2627,7 @@ function RepositoryTestScriptListController($state, $stateParams, $scope, $rootS
 
 }
 module.exports = RepositoryTestScriptListController;
-},{}],36:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 RepositoryController.$inject = ['$state', '$scope', '$log', 'repositoryservice', 'testFolders'];
 
 function RepositoryController($state, $scope, $log, repositoryservice, testFolders) {
@@ -2886,7 +2674,7 @@ function RepositoryController($state, $scope, $log, repositoryservice, testFolde
     }
 }
 module.exports = RepositoryController;
-},{}],37:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 RepositoryFilter.$inject = ['$sce'];
 
 function RepositoryFilter($sce) {
@@ -2895,7 +2683,7 @@ function RepositoryFilter($sce) {
     }
 }
 module.exports = RepositoryFilter;
-},{}],38:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular
@@ -2908,7 +2696,7 @@ module.exports = angular
     .filter('sanitize', require('./repository.filter'));
 
 
-},{"./repository-modules.controller":34,"./repository-testscripts-list.controller":35,"./repository.controller":36,"./repository.filter":37,"./repository.route":39,"./repository.service":40,"angular":96}],39:[function(require,module,exports){
+},{"./repository-modules.controller":38,"./repository-testscripts-list.controller":39,"./repository.controller":40,"./repository.filter":41,"./repository.route":43,"./repository.service":44,"angular":100}],43:[function(require,module,exports){
 RepositoryRoute.$inject = ['$stateProvider', '$breadcrumbProvider'];
 
 function RepositoryRoute($stateProvider, $breadcrumbProvider) {
@@ -2991,7 +2779,7 @@ function RepositoryRoute($stateProvider, $breadcrumbProvider) {
     });
 }
 module.exports = RepositoryRoute;
-},{"./test-folders.resolve":41}],40:[function(require,module,exports){
+},{"./test-folders.resolve":45}],44:[function(require,module,exports){
 RepositoryService.$inject = ['$http', '$q', 'spinnerService'];
 
 function RepositoryService($http, $q, spinnerService) {
@@ -3120,7 +2908,7 @@ function RepositoryService($http, $q, spinnerService) {
     }
 }
 module.exports = RepositoryService;
-},{}],41:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 getTestFolders.$inject = ['repositoryservice', '$http', '$stateParams', '$q', 'spinnerService'];
 
 function getTestFolders(repositoryservice, $http, $stateParams, $q, spinnerService) { //To fetch root level test folders which are defined in RT Dashboard database
@@ -3136,7 +2924,7 @@ function getTestFolders(repositoryservice, $http, $stateParams, $q, spinnerServi
         return def.promise;
 }
 module.exports = getTestFolders;
-},{}],42:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 SearchController.$inject = [    
     '$state',
     '$scope',
@@ -3425,7 +3213,7 @@ function SearchController($state, $scope,$rootScope, $http,$filter,$timeout, rep
 }
 
 module.exports = SearchController;
-},{}],43:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular
@@ -3435,7 +3223,7 @@ module.exports = angular
     
 
 
-},{"./search.controller":42,"./search.route":44,"angular":96}],44:[function(require,module,exports){
+},{"./search.controller":46,"./search.route":48,"angular":100}],48:[function(require,module,exports){
 SearchRoute.$inject = ['$stateProvider'];
 
 function SearchRoute($stateProvider) {
@@ -3469,7 +3257,7 @@ function SearchRoute($stateProvider) {
     });
 }
 module.exports = SearchRoute;
-},{}],45:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 /*! angular-breadcrumb - v0.5.0
 * http://ncuillery.github.io/angular-breadcrumb
 * Copyright (c) 2016 Nicolas Cuillery; Licensed MIT */
@@ -3875,7 +3663,7 @@ angular.module('ncy-angular-breadcrumb', ['ui.router.state'])
     .directive('ncyBreadcrumbLast', BreadcrumbLastDirective)
     .directive('ncyBreadcrumbText', BreadcrumbTextDirective);
 })(window, window.angular);
-},{}],46:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 BreadCrumbController.$inject = ['$rootScope','$state','repositoryservice'];
 
 function BreadCrumbController($rootScope, $state, repositoryservice) {
@@ -3888,7 +3676,7 @@ var breadcrumbComponent = {
 };
 
 module.exports = breadcrumbComponent;
-},{}],47:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 function checkRepository() {
     return function($scope, element, attrs) {
         $scope.$on("show_repository_breadcrumb", function() {
@@ -3903,7 +3691,7 @@ function checkRepository() {
     };
 }
 module.exports = checkRepository;
-},{}],48:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 checkRepositoryService.$inject = ['$rootScope'];
 
 function checkRepositoryService($rootScope) {
@@ -3917,7 +3705,7 @@ function checkRepositoryService($rootScope) {
     };
 }
 module.exports = checkRepositoryService;
-},{}],49:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
     rtAlert.$inject = [];
     /* @ngInject */
     function rtAlert() {
@@ -3949,7 +3737,7 @@ module.exports = checkRepositoryService;
         return alertDirective;
     }
     module.exports = rtAlert;
-},{}],50:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 ConfirmModalController.$inject = ['$uibModalInstance', 'modal'];
 
 function ConfirmModalController($uibModalInstance, modal) {
@@ -4008,7 +3796,7 @@ function ConfirmModalDirective($uibModal) {
     };
 }
 module.exports = ConfirmModalDirective;
-},{}],51:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 rtRepoChain.$inject = [];
 /* @ngInject */
 function rtRepoChain() {
@@ -4075,7 +3863,7 @@ function rtRepoChain() {
     return rtRepoDirective;
 }
 module.exports = rtRepoChain;
-},{}],52:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 
 function delItemRenderer(){
 
@@ -4097,7 +3885,7 @@ function delItemRenderer(){
 }
 
 module.exports = delItemRenderer;
-},{}],53:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 
 function formValidation($parse){
 
@@ -4163,7 +3951,7 @@ function formValidation($parse){
 }
 
 module.exports = formValidation;
-},{}],54:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 
 function bhuIdLinkRenderer(){
 
@@ -4186,7 +3974,7 @@ function bhuIdLinkRenderer(){
 }
 
 module.exports = bhuIdLinkRenderer;
-},{}],55:[function(require,module,exports){
+},{}],59:[function(require,module,exports){
 
 function editItemRenderer(){
 
@@ -4206,7 +3994,7 @@ function editItemRenderer(){
 }
 
 module.exports = editItemRenderer;
-},{}],56:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 
 function dateFormat($filter){
 
@@ -4226,7 +4014,7 @@ function dateFormat($filter){
 }
 
 module.exports = dateFormat;
-},{}],57:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 
 function descItemRenderer(){
 
@@ -4256,7 +4044,7 @@ function descItemRenderer(){
 }
 
 module.exports = descItemRenderer;
-},{}],58:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 
 function defectsSummaryItemRenderer(){
 
@@ -4273,7 +4061,7 @@ function defectsSummaryItemRenderer(){
 }
 
 module.exports = defectsSummaryItemRenderer;
-},{}],59:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 
 function itemnameLinkRenderer(){
 
@@ -4314,7 +4102,7 @@ function itemnameLinkRenderer(){
 }
 
 module.exports = itemnameLinkRenderer;
-},{}],60:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 
 function repoDescItemRenderer(){
 
@@ -4331,7 +4119,7 @@ function repoDescItemRenderer(){
 }
 
 module.exports = repoDescItemRenderer;
-},{}],61:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 
 function expectedItemRenderer(){
 
@@ -4348,7 +4136,7 @@ function expectedItemRenderer(){
 }
 
 module.exports = expectedItemRenderer;
-},{}],62:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 
 function inputItemRenderer(){
 
@@ -4365,7 +4153,7 @@ function inputItemRenderer(){
 }
 
 module.exports = inputItemRenderer;
-},{}],63:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 function tcodeItemRenderer(){
 
     return {
@@ -4381,7 +4169,7 @@ function tcodeItemRenderer(){
 }
 
 module.exports = tcodeItemRenderer;
-},{}],64:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 
 function rtSpocDesc(sharedService){
 
@@ -4410,7 +4198,7 @@ function rtSpocDesc(sharedService){
 }
 
 module.exports = rtSpocDesc;
-},{}],65:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 
 function moduleItemRenderer(){
 
@@ -4428,7 +4216,7 @@ function moduleItemRenderer(){
 }
 
 module.exports = moduleItemRenderer;
-},{}],66:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 module.exports = function(app) {
 
     app.directive('rtGridA11y', function($compile, $timeout) {
@@ -4472,7 +4260,7 @@ module.exports = function(app) {
         }
     });
 };
-},{}],67:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 module.exports = function(app) {
 
     app.directive('rtAccordion', function($parse) {
@@ -4489,7 +4277,7 @@ module.exports = function(app) {
         }
     });
 };
-},{}],68:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 module.exports = function(app) {
 
     'use strict';
@@ -5034,7 +4822,7 @@ module.exports = function(app) {
             };
         });
 }
-},{}],69:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 module.exports = function(app) {
     'use strict';
 
@@ -5082,7 +4870,7 @@ module.exports = function(app) {
         }
     }
 }
-},{}],70:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 var rtGrid = angular.module('rtGrid', [ ]);
 
 require('./grid.directive.js')(rtGrid);
@@ -5096,7 +4884,7 @@ require('./grid.a11y.directive.js')(rtGrid);
 
 module.exports = rtGrid;
 
-},{"./grid.a11y.directive.js":66,"./grid.accordion.directive.js":67,"./grid.directive.js":68,"./grid.filter.js":69,"./grid.pagination.directive.js":71,"./grid.reorder.directive.js":72,"./grid.sort.directive.js":73,"./grid.sort.service.js":74}],71:[function(require,module,exports){
+},{"./grid.a11y.directive.js":70,"./grid.accordion.directive.js":71,"./grid.directive.js":72,"./grid.filter.js":73,"./grid.pagination.directive.js":75,"./grid.reorder.directive.js":76,"./grid.sort.directive.js":77,"./grid.sort.service.js":78}],75:[function(require,module,exports){
 module.exports = function(app) {
 
     app.directive('rtPagination', function() {
@@ -5106,7 +4894,7 @@ module.exports = function(app) {
         }
     });
 };
-},{}],72:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 module.exports = function(app) {
 
     app.directive('rtReorder', function($parse, $compile) {
@@ -5137,7 +4925,7 @@ module.exports = function(app) {
         }
     });
 };
-},{}],73:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 module.exports = function(app) {
     'use strict';
 
@@ -5178,7 +4966,7 @@ module.exports = function(app) {
         }
     }
 };
-},{}],74:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 module.exports = function(app) {
     app.factory('gridSortComparator', function() {
         return {
@@ -5195,7 +4983,7 @@ module.exports = function(app) {
         };
     });
 }
-},{}],75:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular
@@ -5226,7 +5014,7 @@ module.exports = angular
     .factory('sharedService', require('./shared.service'));
     
 
-},{"./breadcrumb/breadcrumb.component":46,"./check-repository/check-repository.directive":47,"./check-repository/check-repository.service":48,"./directives/alert-banner/alert-banner.directive":49,"./directives/confirm-modal/confirm-modal.directive":50,"./directives/generate-repository-breadcrumb.directive":51,"./directives/grid-admin-delete.directive":52,"./directives/grid-admin-validation.directive":53,"./directives/grid-bhu-id-link.directive":54,"./directives/grid-custom-template.directives":55,"./directives/grid-date-format.directive":56,"./directives/grid-defects-desc.directive":57,"./directives/grid-defects-summary.directive":58,"./directives/grid-item-link.directive":59,"./directives/grid-repository-design-desc.directive":60,"./directives/grid-repository-design-expected.directive":61,"./directives/grid-repository-design-inputdata.directive":62,"./directives/grid-repository-design-tcode.directive":63,"./directives/grid-spoc-details.directive":64,"./directives/grid-spotlight-modules.directive":65,"./shared.service":76,"./spinner.directive":77,"./spinner/spinner.service":78,"./user-photo/user-photo.component":79,"angular":96}],76:[function(require,module,exports){
+},{"./breadcrumb/breadcrumb.component":50,"./check-repository/check-repository.directive":51,"./check-repository/check-repository.service":52,"./directives/alert-banner/alert-banner.directive":53,"./directives/confirm-modal/confirm-modal.directive":54,"./directives/generate-repository-breadcrumb.directive":55,"./directives/grid-admin-delete.directive":56,"./directives/grid-admin-validation.directive":57,"./directives/grid-bhu-id-link.directive":58,"./directives/grid-custom-template.directives":59,"./directives/grid-date-format.directive":60,"./directives/grid-defects-desc.directive":61,"./directives/grid-defects-summary.directive":62,"./directives/grid-item-link.directive":63,"./directives/grid-repository-design-desc.directive":64,"./directives/grid-repository-design-expected.directive":65,"./directives/grid-repository-design-inputdata.directive":66,"./directives/grid-repository-design-tcode.directive":67,"./directives/grid-spoc-details.directive":68,"./directives/grid-spotlight-modules.directive":69,"./shared.service":80,"./spinner.directive":81,"./spinner/spinner.service":82,"./user-photo/user-photo.component":83,"angular":100}],80:[function(require,module,exports){
 SharedService.$inject = ['$http', '$q', 'spinnerService'];
 
 function SharedService($http, $q, spinnerService) {
@@ -5307,7 +5095,7 @@ function SharedService($http, $q, spinnerService) {
     }
 }
 module.exports = SharedService;
-},{}],77:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 function spinner() {
     return function($scope, element, attrs) {
         $scope.$on("spinner_show", function() {
@@ -5319,7 +5107,7 @@ function spinner() {
     };
 }
 module.exports = spinner;
-},{}],78:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 spinnerService.$inject = ['$rootScope'];
 
 function spinnerService($rootScope) {
@@ -5333,7 +5121,7 @@ function spinnerService($rootScope) {
     };
 }
 module.exports = spinnerService;
-},{}],79:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 PhotoController.$inject = [
     'photoservice'
 ];
@@ -5358,7 +5146,7 @@ var userPhotoComponent = {
 };
 
 module.exports = userPhotoComponent;
-},{}],80:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 TeamController.$inject = ['$state', '$scope', '$log', '$http', 'teamService', 'adminservice', '$location', '$anchorScroll'];
 
 function TeamController($state, $scope, $log, $http, teamService, adminservice, $location, $anchorScroll) {
@@ -5481,7 +5269,7 @@ function TeamController($state, $scope, $log, $http, teamService, adminservice, 
   }
 }
 module.exports = TeamController;
-},{}],81:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular
@@ -5490,7 +5278,7 @@ module.exports = angular
     .controller('TeamController', require('./team.controller'))
     .factory('teamService', require('./team.service'));
 
-},{"./team.controller":80,"./team.route":82,"./team.service":83,"angular":96}],82:[function(require,module,exports){
+},{"./team.controller":84,"./team.route":86,"./team.service":87,"angular":100}],86:[function(require,module,exports){
 TeamRoute.$inject = ['$stateProvider'];
 
 function TeamRoute($stateProvider) {
@@ -5509,7 +5297,7 @@ function TeamRoute($stateProvider) {
     });
 }
 module.exports = TeamRoute;
-},{}],83:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 TeamService.$inject = [
      '$http',
     '$q',
@@ -5557,7 +5345,7 @@ function TeamService($http, $q,spinnerService) {
 
 module.exports = TeamService;
 
-},{}],84:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 BhuModalController.$inject = ['$uibModalInstance', 'modal'];
 
 function BhuModalController($uibModalInstance, modal) {
@@ -5649,7 +5437,7 @@ function BhuModalDirective($uibModal, ticketservice) {
     };
 }
 module.exports = BhuModalDirective;
-},{}],85:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 getTicketsFolders.$inject = ['ticketservice','$q', '$http', '$stateParams', 'spinnerService'];
 
 function getTicketsFolders(ticketservice, $q, $http, $stateParams, spinnerService) {
@@ -5668,7 +5456,7 @@ function getTicketsFolders(ticketservice, $q, $http, $stateParams, spinnerServic
 }
 module.exports = getTicketsFolders;
 
-},{}],86:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
 TicketsController.$inject = [    
     '$state',
     '$scope',
@@ -6007,7 +5795,7 @@ function resetFilter(){
 
 module.exports = TicketsController;
 
-},{}],87:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 var angular = require('angular');
 
 module.exports = angular
@@ -6018,7 +5806,7 @@ module.exports = angular
     .factory('ticketservice', require('./tickets.service'));
 
 
-},{"./bhu-modal.directive":84,"./tickets.controller":86,"./tickets.route":88,"./tickets.service":89,"angular":96}],88:[function(require,module,exports){
+},{"./bhu-modal.directive":88,"./tickets.controller":90,"./tickets.route":92,"./tickets.service":93,"angular":100}],92:[function(require,module,exports){
 TicketsRoute.$inject = [
     '$stateProvider'
 ];
@@ -6066,7 +5854,7 @@ function TicketsRoute(
 }
 
 module.exports = TicketsRoute;
-},{"./tickets-folders.resolve":85}],89:[function(require,module,exports){
+},{"./tickets-folders.resolve":89}],93:[function(require,module,exports){
 TicketsService.$inject = [
     '$http',
     '$q',
@@ -6171,7 +5959,7 @@ function TicketsService($http, $q,spinnerService) {
 
 module.exports = TicketsService;
 
-},{}],90:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.6
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -6897,11 +6685,11 @@ function ngMessageDirectiveFactory() {
 
 })(window, window.angular);
 
-},{}],91:[function(require,module,exports){
+},{}],95:[function(require,module,exports){
 require('./angular-messages');
 module.exports = 'ngMessages';
 
-},{"./angular-messages":90}],92:[function(require,module,exports){
+},{"./angular-messages":94}],96:[function(require,module,exports){
 /*
  * angular-ui-bootstrap
  * http://angular-ui.github.io/bootstrap/
@@ -14438,12 +14226,12 @@ angular.module('ui.bootstrap.datepickerPopup').run(function() {!angular.$$csp().
 angular.module('ui.bootstrap.tooltip').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTooltipCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style>'); angular.$$uibTooltipCss = true; });
 angular.module('ui.bootstrap.timepicker').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTimepickerCss && angular.element(document).find('head').prepend('<style type="text/css">.uib-time input{width:50px;}</style>'); angular.$$uibTimepickerCss = true; });
 angular.module('ui.bootstrap.typeahead').run(function() {!angular.$$csp().noInlineStyle && !angular.$$uibTypeaheadCss && angular.element(document).find('head').prepend('<style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>'); angular.$$uibTypeaheadCss = true; });
-},{}],93:[function(require,module,exports){
+},{}],97:[function(require,module,exports){
 require('./dist/ui-bootstrap-tpls');
 
 module.exports = 'ui.bootstrap';
 
-},{"./dist/ui-bootstrap-tpls":92}],94:[function(require,module,exports){
+},{"./dist/ui-bootstrap-tpls":96}],98:[function(require,module,exports){
 /**
  * State-based routing for AngularJS
  * @version v0.3.1
@@ -19020,7 +18808,7 @@ angular.module('ui.router.state')
   .filter('isState', $IsStateFilter)
   .filter('includedByState', $IncludedByStateFilter);
 })(window, window.angular);
-},{}],95:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 /**
  * @license AngularJS v1.5.6
  * (c) 2010-2016 Google, Inc. http://angularjs.org
@@ -50044,11 +49832,11 @@ $provide.value("$locale", {
 })(window);
 
 !window.angular.$$csp().noInlineStyle && window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
-},{}],96:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 require('./angular');
 module.exports = angular;
 
-},{"./angular":95}],97:[function(require,module,exports){
+},{"./angular":99}],101:[function(require,module,exports){
 /*!
  * Bootstrap v3.3.6 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -52413,7 +52201,7 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-},{}],98:[function(require,module,exports){
+},{}],102:[function(require,module,exports){
 /*!
  * jQuery UI Widget 1.12.1
  * http://jqueryui.com
@@ -53148,7 +52936,7 @@ return $.widget;
 
 } ) );
 
-},{}],99:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.12.4
  * http://jquery.com/
@@ -64158,7 +63946,7 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],100:[function(require,module,exports){
+},{}],104:[function(require,module,exports){
 /*!
  * ui-select
  * http://github.com/angular-ui/ui-select
@@ -66552,11 +66340,11 @@ $templateCache.put("selectize/match.tpl.html","<div ng-hide=\"$select.searchEnab
 $templateCache.put("selectize/no-choice.tpl.html","<div class=\"ui-select-no-choice selectize-dropdown\" ng-show=\"$select.items.length == 0\"><div class=\"selectize-dropdown-content\"><div data-selectable=\"\" ng-transclude=\"\"></div></div></div>");
 $templateCache.put("selectize/select-multiple.tpl.html","<div class=\"ui-select-container selectize-control multi plugin-remove_button\" ng-class=\"{\'open\': $select.open}\"><div class=\"selectize-input\" ng-class=\"{\'focus\': $select.open, \'disabled\': $select.disabled, \'selectize-focus\' : $select.focus}\" ng-click=\"$select.open && !$select.searchEnabled ? $select.toggle($event) : $select.activate()\"><div class=\"ui-select-match\"></div><input type=\"search\" autocomplete=\"off\" tabindex=\"-1\" class=\"ui-select-search\" ng-class=\"{\'ui-select-search-hidden\':!$select.searchEnabled}\" placeholder=\"{{$selectMultiple.getPlaceholder()}}\" ng-model=\"$select.search\" ng-disabled=\"$select.disabled\" aria-expanded=\"{{$select.open}}\" aria-label=\"{{ $select.baseTitle }}\" ondrop=\"return false;\"></div><div class=\"ui-select-choices\"></div><div class=\"ui-select-no-choice\"></div></div>");
 $templateCache.put("selectize/select.tpl.html","<div class=\"ui-select-container selectize-control single\" ng-class=\"{\'open\': $select.open}\"><div class=\"selectize-input\" ng-class=\"{\'focus\': $select.open, \'disabled\': $select.disabled, \'selectize-focus\' : $select.focus}\" ng-click=\"$select.open && !$select.searchEnabled ? $select.toggle($event) : $select.activate()\"><div class=\"ui-select-match\"></div><input type=\"search\" autocomplete=\"off\" tabindex=\"-1\" class=\"ui-select-search ui-select-toggle\" ng-class=\"{\'ui-select-search-hidden\':!$select.searchEnabled}\" ng-click=\"$select.toggle($event)\" placeholder=\"{{$select.placeholder}}\" ng-model=\"$select.search\" ng-hide=\"!$select.isEmpty() && !$select.open\" ng-disabled=\"$select.disabled\" aria-label=\"{{ $select.baseTitle }}\"></div><div class=\"ui-select-choices\"></div><div class=\"ui-select-no-choice\"></div></div>");}]);
-},{}],101:[function(require,module,exports){
+},{}],105:[function(require,module,exports){
 require('./dist/select.js');
 module.exports = 'ui.select';
 
-},{"./dist/select.js":100}]},{},[10])
+},{"./dist/select.js":104}]},{},[10])
 
 
 //# sourceMappingURL=rtdashboard.js.map

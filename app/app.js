@@ -48,7 +48,6 @@ angular
     .config(require('./app.route.js'))
     // configure application breadcrumb options
     .config(function($breadcrumbProvider) {
-    debugger;
         $breadcrumbProvider.setOptions({
           prefixStateName: 'home',
           template: 'bootstrap3'
