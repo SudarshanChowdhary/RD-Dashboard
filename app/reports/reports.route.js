@@ -23,7 +23,7 @@ function ReportsRoute($stateProvider) {
         url: '/bhureports',
         views: {
             '@root.bhureports': {
-                templateUrl: 'app/reports/templates/reports-bhu-report.html',
+                templateUrl: 'app/reports/templates/reports-bhu.html',
                 controller: 'BhuReportController',
                 controllerAs: 'bhureport'
             }
