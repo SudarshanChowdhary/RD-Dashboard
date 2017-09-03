@@ -2,6 +2,7 @@
 $ = jQuery = require('jquery');
 var angular = require('angular');
 require('jquery-ui');
+//require('angular-sanitize');
 // external or vendor dependencies
 require('bootstrap-sass/assets/javascripts/bootstrap');
 require('angular-ui-bootstrap');

@@ -15,11 +15,13 @@ function ReportsService($http, $q,spinnerService){
 
 	return reportsService;
 
+
+    
 	function getReportsList() {
+        debugger;
         var def = $q.defer();
          spinnerService.show();
-          //  $http.get("reports/list")
-           $http.get("https://rtdashboardp.rno.apple.com:9012/reports/list?callback=angular.callbacks._0")
+            $http.get("https://rtdashboardp.rno.apple.com:9012/reports/list?callback=angular.callbacks._0")
                 .success(function(data) {
                     def.resolve(data);
                     spinnerService.hide();
@@ -31,13 +33,15 @@ function ReportsService($http, $q,spinnerService){
     }
 
     function getReportsUrl(rId) {
-        return ("reports/download/" + rId);
+        return ("https://rtdashboardp.rno.apple.com:9012/reports/download/" + rId+"?callback=angular.callbacks._0");
     }
     
+    // BHU Report services **************************************************/
     function getBhuReportData() {
+        debugger;
         var def = $q.defer();
         spinnerService.show();
-        $http.get("bhureports/details?start-index=1").success(function(data) {
+        $http.get("https://rtdashboardp.rno.apple.com:9012/bhureports/details?start-index=1&callback=angular.callbacks._0").success(function(data) {
             def.resolve(data);
             spinnerService.hide();
         }).error(function() {
@@ -49,7 +53,7 @@ function ReportsService($http, $q,spinnerService){
     function getBhuReportFilterDetailsByYear(year, startIndex){
         var def = $q.defer();
          spinnerService.show();
-            $http.get("bhureports/details/"+year+"?start-index="+startIndex)
+            $http.get("https://rtdashboardp.rno.apple.com:9012/bhureports/details/"+year+"?start-index="+startIndex+"&callback=angular.callbacks._0")
                 .success(function(data) {
                     def.resolve(data);
                     spinnerService.hide();
@@ -63,7 +67,7 @@ function ReportsService($http, $q,spinnerService){
     function getBhuReportFilterDetailsByQuarter(year,quar, startIndex){
         var def = $q.defer();
          spinnerService.show();
-            $http.get("bhureports/details/"+year+"/"+quar+"?start-index="+startIndex)
+            $http.get("https://rtdashboardp.rno.apple.com:9012/bhureports/details/"+year+"/"+quar+"?start-index="+startIndex+"&callback=angular.callbacks._0")
                 .success(function(data) {
                     def.resolve(data);
                     spinnerService.hide();

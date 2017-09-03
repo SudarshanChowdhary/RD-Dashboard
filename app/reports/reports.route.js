@@ -1,75 +1,67 @@
 ReportsRoute.$inject = ['$stateProvider'];
 
 function ReportsRoute($stateProvider) {
-    $stateProvider
-    .state('root.reporthome', {
+    $stateProvider.state('root.R', {
+        // parent: 'root', this is not correct if you keep parent it will go back to home alwas, not useful for brudscrum
+        //abstract: true,
+        url: '/reports',
+        resolve: {
+            reportsList: require('./reports-list.resolve')
+        },
+        ncyBreadcrumb: {
+            skip: true
+        }
+    }).state('root.R.reporthome', {
         url: '/reporthome',
         views: {
-            '@root': {
-                templateUrl: 'app/reports/templates/reports-home.html',
-                controller: 'ReportsHomeController',
-                controllerAs: "vmrephome"
-            }
-        }
-    })
-    .state('root.reportbhu', {
-        url: '/reportbhu',
-        views: {
-            '@root': {
-                templateUrl: 'app/reports/templates/reports-bhu.html',
-                controller: 'ReportsBHUController',
-                controllerAs: "vmrepbhu"
-            }
-        }
-    })
-    .state('root.bhuihu', {
-        url: '/bhuihu',
-        views: {
-            '@root': {
-                templateUrl: 'app/reports/templates/bhu-ihu.html',
-                controller: 'BHUIHUController',
-                controllerAs: "vmbhuihu"
-            }
-        }
-    })
-    .state('root.currentstatus', {
-        url: '/currentstatus',
-        views: {
-            '@root': {
-                templateUrl: 'app/reports/templates/current-status.html',
-                controller: 'CurrentStatusController',
-                controllerAs: "vmcurrentstatus"
-            }
-        }
-    })    
-    .state('root.warrantyissues', {
-        url: '/warrantyissues',
-        views: {
-            '@root': {
-                templateUrl: 'app/reports/templates/warranty-issues.html',
-                controller: 'WarrantyIssuesController',
-                controllerAs: "vmwarrantyissues"
-            }
-        }
-    })
-    .state('root.reports', {
-        url: '/reports',
-        views: {
-            '@root.reports': {
-                templateUrl: 'app/reports/templates/reports.html',
+            "@root": {
+                templateUrl: 'app/reports/templates/report-container.html',
                 controller: 'ReportsController',
                 controllerAs: 'vmrep'
+            },
+            'reportscontainer@root.reports.reporthome': {
+                templateUrl: 'app/reports/templates/reports-home.html'
+            }
+        },
+        ncyBreadcrumb: {
+            label: 'Reports'
+        }
+    }).state('root.R.reporthome.reportrequest', {
+        url: '/reportrequest',
+        params: {
+            folderName: null
+        },
+        views: {
+            "@root": {
+                templateUrl: 'app/reports/templates/reports.html',
+                controller: 'ReportsController',
+                controllerAs: 'vmrmc'
             }
         },
         resolve: {
-                reportsList: require('./reports-list.resolve')
-                // reportsList: ["$q", "$timeout","$http", function ($q, $timeout, $http) {
-                //    return $http.get("reports/list").then(function(resp){ return {status:true , reportsList: resp} }, function(error){ return {status:false, reportsList: error} })
-                // }]
-            },
+            reportsList: require('./reports-list.resolve')
+        },
         ncyBreadcrumb: {
-            label: 'Request Report'
+            //skip: true
+            label: 'Reports Request'
         }
-    });
+    }).state('root.R.reporthome.bhureports', {
+        //url: '/bhureports',
+        url: '/bhureports',
+        views: {
+            "@root": {
+                templateUrl: 'app/reports/templates/reports-bhu-report.html',
+                controller: 'BhuReportsController',
+                controllerAs: 'bhureport'
+            }
+        },
+        resolve: {
+            reportsList: require('./reports-list.resolve')
+        },
+        ncyBreadcrumb: {
+            //skip:true
+            label: 'BHU Reports'
+        }
+    })
 }
 module.exports = ReportsRoute;
